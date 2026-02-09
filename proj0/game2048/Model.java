@@ -192,21 +192,18 @@ public class Model extends Observable {
                         return true;
                     }
                 }
-
                 //down
                 if ((i+1) < len) {
                     if (sameValue(b, i, j, i+1, j)) {
                         return true;
                     }
                 }
-
                 //left
                 if ((j-1) != -1) {
                     if (sameValue(b, i, j, i, j-1)) {
                         return true;
                     }
                 }
-
                 //right
                 if ((j+1) < len) {
                     if (sameValue(b, i, j, i, j+1)) {
