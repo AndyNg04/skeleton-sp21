@@ -138,6 +138,14 @@ public class Model extends Observable {
      * */
     public static boolean emptySpaceExists(Board b) {
         // TODO: Fill in this function.
+        int len = b.size();
+        for (int i = 0; i < len; i++) {
+            for (int j = 0; j < len; j++) {
+                if (b.tile(i, j) == null) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -148,6 +156,17 @@ public class Model extends Observable {
      */
     public static boolean maxTileExists(Board b) {
         // TODO: Fill in this function.
+        int len = b.size();
+        for (int i = 0; i < len; i++) {
+            for (int j = 0; j < len; j++) {
+                if (b.tile(i, j) == null) {
+                    continue;
+                }
+                if (b.tile(i, j).value() == MAX_PIECE) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -159,6 +178,50 @@ public class Model extends Observable {
      */
     public static boolean atLeastOneMoveExists(Board b) {
         // TODO: Fill in this function.
+        // if empty space
+        if (emptySpaceExists(b)) {
+            return true;
+        }
+        // if equal value nearby
+        int len = b.size();
+        for (int i = 0; i < len; i++) {
+            for (int j = 0; j < len; j++) {
+                //up
+                if ((i-1) != -1) {
+                    if (sameValue(b, i, j, i-1, j)) {
+                        return true;
+                    }
+                }
+
+                //down
+                if ((i+1) < len) {
+                    if (sameValue(b, i, j, i+1, j)) {
+                        return true;
+                    }
+                }
+
+                //left
+                if ((j-1) != -1) {
+                    if (sameValue(b, i, j, i, j-1)) {
+                        return true;
+                    }
+                }
+
+                //right
+                if ((j+1) < len) {
+                    if (sameValue(b, i, j, i, j+1)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean sameValue(Board b, int i, int j, int i1, int j1) {
+        if (b.tile(i, j).value() == b.tile(i1, j1).value()) {
+            return true;
+        }
         return false;
     }
 
