@@ -215,6 +215,7 @@ public class Model extends Observable {
         return false;
     }
 
+    
     public static boolean sameValue(Board b, int i, int j, int i1, int j1) {
         if (b.tile(i, j).value() == b.tile(i1, j1).value()) {
             return true;
