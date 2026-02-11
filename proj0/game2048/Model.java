@@ -110,9 +110,46 @@ public class Model extends Observable {
         boolean changed;
         changed = false;
 
-        // TODO: Modify this.board (and perhaps this.score) to account
-        // for the tilt to the Side SIDE. If the board changed, set the
-        // changed local variable to true.
+        board.setViewingPerspective(side);
+        int size = board.size();
+
+        for (int col = 0; col < size; col += 1) {
+            boolean[] mergedThisCol = new boolean[size];
+            for (int row = size - 2; row >= 0; row -= 1) {
+                Tile tile = board.tile(col, row);
+                if (tile == null) {
+                    continue;
+                }
+
+                int destRow = row;
+                boolean willMerge = false;
+
+                for (int r = row + 1; r < size; r += 1) {
+                    Tile next = board.tile(col, r);
+                    if (next == null) {
+                        destRow = r;
+                        continue;
+                    }
+                    if (next.value() == tile.value() && !mergedThisCol[r]) {
+                        destRow = r;
+                        willMerge = true;
+                    }
+                    break;
+                }
+
+                if (destRow != row) {
+                    boolean mergeHappened = board.move(col, destRow, tile);
+                    if (mergeHappened) {
+                        score += tile.value() * 2;
+                    }
+                    if (willMerge) {
+                        mergedThisCol[destRow] = true;
+                    }
+                    changed = true;
+                }
+            }
+        }
+        board.setViewingPerspective(Side.NORTH);
 
         checkGameOver();
         if (changed) {
